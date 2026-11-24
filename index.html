@@ -1,20 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>LEGEND CITY RP - CityLife Style</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEGEND CITY RP</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-body { background:#000; color:white; overflow:hidden; height:100vh; width:100vw; }
-
-/* GAME SCREEN - USES YOUR STREET PICTURE */
-#game {
-  position:relative; width:100vw; height:100vh;
-  background-image: url('street.jpg');
-  background-size: cover; background-position: center;
-  background-color:#1a1a1a;
-  overflow:hidden;
-}
-
-/* D
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#000;color:#fff;overflow:hidden;height:100vh}
+#game{position:relative;width:100vw;height:100vh;background:#111 url('https://images.unsplash.com/photo-1577948000111-9c970dfe3743?w=1200&q=80') center/cover no-repeat}
+.top{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.8);padding:10px 14px;border-radius:12px}
+.top h1{font-size:24px}
+.bar{height:10px;background:#333;border-radius:10px;overflow:hidden;margin-top:5px}
+.fill{height:100%;background:#22c55e;width:90%}
+.right{position:absolute;top:10px;right:10px;width:200px;background:rgba(0,0,0,.8);padding:12px;border-radius:14px}
+.right h3{color:#facc15;font-size:16px;margin-bottom:6px}
+.right p{font-size:13px;margin:6px 0;display:flex;justify-content:space-between}
+.chat{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);padding:8px 12px;border-radius:20px;font-size:11px;white-space:nowrap}
+.bottomL{position:absolute;bottom:12px;left:10px;display:flex;gap:10px;align-items:flex-end}
+.map{width:90px;height:90px;border-radius:50%;background:#222;border:3px solid #555;display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px}
+.joy{width:85px;height:85px;border-radius:50%;background:rgba(0,0,0,.5);border:2px solid #777;display:flex;align-items:center;justify-content:center}
+.joy div{width:38px;height:38px;border-radius:50%;background:#333;border:1px solid #888}
+.bottomR{position:absolute;bottom:12px;right:10px;display:flex;gap:8px}
+button{border:none;padding:13px 16px;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer}
+.run{background:#facc15}
+.car{background:#2563eb;color:#fff}
+.center{position:absolute;bottom:40%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:bold}
+#pop{display:none;position:absolute;inset:0;background:rgba(0,0,0,.85);align-items:center;justify-content:center}
+.card{background:#111;border:1px solid #333;padding:20px;border-radius:16px;text-align:center;max-width:320px;width:90%}
+.card button{width:100%;margin-top:10px;background:#facc15}
+.card .c{background:#333;color:#fff}
+</style>
+</head>
+<body>
+<div id="game">
+<div class="top"><h1 id="money">₦125,430 🪙</h1><div style="display:flex;justify-content:space-between;font-size:11px;margin-top:6px"><span>HEALTH</span><span id="hp">90%</span></div><div class="bar"><div class="fill" id="hpBar"></div></div><div style="margin-top:8px;font-size:13px">🛡️ 50% ARMOR</div></div>
+<div class="chat"><b style="color:#facc15">GAME CHAT:</b> Adams: Need backup at Yaba!</div>
+<div class="right" onclick="openPop()"><h3>QUESTS</h3><p><span>• Deliver Package</span><b id="q">0/1</b></p><h3 style="color:#fff;margin-top:12px">WEEKLY</h3><p><span>• <span id="r">3/5 Robberies</span></span></p><h3 style="margin-top:12px">CITY PASS</h3><p><span>Lv.12</span><span>150/500 XP</span></p></div>
+<div class="center" id="label">👤 GANGSTER - Lekki</div>
+<div class="bottomL"><div class="map">LEGEND CITY<br>LEKKI 📍</div><div class="joy"><div></div></div></div>
+<div class="bottomR"><button class="run" onclick="doRun()">🏃 RUN</button><button class="car" onclick="enterCar()">🚗 ENTER CAR</button></div>
+<div id="pop"><div class="card"><h2 id="pt">Welcome to Legend City!</h2><p id="pp" style="color:#aaa;font-size:14px;margin:10px 0">You dey Lekki. Do delivery, collect money.</p><button onclick="claim()">✅ COMPLETE QUEST + ₦8,500</button><button class="c" onclick="closePop()">Close</button></div></div>
+</div>
+<script>
+let money=125430,health=90,quest=0,rob=3;
+function up(){document.getElementById('money').innerText='₦'+money.toLocaleString()+' 🪙';document.getElementById('hp').innerText=health+'%';document.getElementById('hpBar').style.width=health+'%';document.getElementById('q').innerText=quest+'/1';document.getElementById('r').innerText=rob+'/5 Robberies';}
+up();
+function doRun(){health=Math.min(100,health+2);document.getElementById('label').innerText='🏃 RUNNING... Lekki';setTimeout(()=>{document.getElementById('label').innerText='👤 GANGSTER - Lekki'},1200);up();}
+function enterCar(){document.getElementById('pt').innerText='🚗 You Enter Danfo!';document.getElementById('pp').innerText='Mile 2 - CMS - Danfo. Drive go Yaba.';document.getElementById('pop').style.display='flex';money+=500;up();}
+function openPop(){document.getElementById('pt').innerText='QUESTS - Legend City';document.getElementById('pp').innerText='Deliver Package to Yaba. Reward: ₦8,500';document.getElementById('pop').style.display='flex';}
+function claim(){if(quest==0){quest=1;rob++;money+=8500;alert('Quest Complete! +₦8,500');}else{alert('You don complete am already!');}up();closePop();}
+function closePop(){document.getElementById('pop').style.display='none';}
+</script>
+</body>
+</html>
